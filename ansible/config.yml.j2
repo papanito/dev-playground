@@ -1,0 +1,50 @@
+
+{% if item.value.hostname is defined %}
+hostname: {{ item.value.hostname }}
+url: {{ item.value.url }}
+{% else %}
+tunnel: {{ item.key }}
+credentials-file: {{ item.value.tunnel_id }}.json
+ingress:
+  {{ item.value.ingress | to_nice_yaml(indent=2) | indent(2) }}
+{% endif %}
+
+{% if (item.value.cf_logfile | default(False)) %}
+logfile: /var/log/cloudflared_{{ item.key }}.log
+{% endif %}
+{% if item.value.autoupdate_freq is defined %}
+autoupdate-freq: {{ item.value.autoupdate_freq }}
+{% endif %}
+{% if item.value.no_autoupdate is defined %}
+no-autoupdate: {{ item.value.no_autoupdate }}
+{% endif %}
+{% if item.value.no_tls_verify is defined %}
+no-tls-verify: {{ item.value.no_tls_verify }}
+{% endif %}
+{% if item.value.origin_ca_pool is defined %}
+origin-ca-pool: {{ item.value.origin_ca_pool }}
+{% endif %}
+{% if item.value.origin_server_name is defined %}
+origin-server-name: {{ item.value.origin_server_name }}
+{% endif %}
+{% if item.value.metrics is defined %}
+metrics: {{ item.value.metrics }}
+{% endif %}
+{% if item.value.metrics_update_freq is defined %}
+metrics-update-freq: {{ item.value.metrics_update_freq }}
+{% endif %}
+{% if item.value.tag is defined %}
+tag: {{ item.value.tag }}
+{% endif %}
+{% if item.value.loglevel is defined %}
+loglevel: {{ item.value.loglevel }}
+{% endif %}
+{% if item.value.proto_loglevel is defined %}
+proto-loglevel: {{ item.value.proto_loglevel }}
+{% endif %}
+{% if item.value.retries is defined %}
+retries: {{ item.value.retries }}
+{% endif %}
+{% if item.value.no_chunked_encoding is defined %}
+no-chunked-encoding: {{ item.value.no_chunked_encoding }}
+{% endif %}

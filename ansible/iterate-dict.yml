@@ -1,0 +1,11 @@
+- name: Iterates trough a dictionary
+  hosts: servers
+  vars:
+    ssh_keys:
+      key1: key1
+      key2: key2
+  tasks:
+  - name: provision authorised keys
+    debug: "msg={{ item.key }}={{ item.value }}"
+    with_dict: "{{ssh_keys}}"
+    delegate_to: localhost

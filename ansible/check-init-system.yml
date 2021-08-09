@@ -1,0 +1,14 @@
+- name: Checks for which init system is used on the hosts
+  hosts: servers
+  tasks:
+  - name: Check init system
+    shell: cat /proc/1/status | grep '[Nn]ame'|sed 's/[Nn]ame:\s*//'
+    register: init_system
+  - debug:
+      var: init_system
+  - debug:
+      var: init_system.stdout
+    when: init_system.stdout == "systemd"
+  - debug:
+      msg: "Init system is not systemd"
+    when: init_system.stdout != "systemd"

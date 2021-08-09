@@ -1,0 +1,43 @@
+## Run this as follows
+## ansible-playbook extra-vars-example.yml -e '{ "sample_list": [ "list_value1", "list_value_2", "list_value_3" ]}'``
+## or
+## ansible-playbook extra-vars-example.yml -e '{ "sample_dict": {"key1":"value1","key2":"value2"}, "sample_list": [ "list_value1", "list_value_2", "list_value_3" ], "simple_string_1": "test", "simple_string_2": "another test" }'
+
+- name: Test passing different types of extra-vars
+  hosts: localhost
+
+  tasks:
+    - name: Show simple string var
+      debug:
+        msg: "{{ simple_string_1 }} is of type '{{ simple_string_1 | type_debug }}'\n{{ simple_string_2 }} is of type '{{ simple_string_2 | type_debug }}'"
+      when: simple_string_1 is defined and simple_string_2 is defined
+    - name: Show dictionary values
+      debug:
+        msg: 
+          - "Key1: {{ key1 }}"
+          - "Key2: {{ key2 }}"
+      when: key1 is defined
+    - block:
+      - name: Show dictionary assigned to a variable
+        debug:
+          msg:
+            - "{{ sample_dict | from_yaml_all }}"
+            - "is of type '{{ sample_dict | type_debug }}'"
+      - name: Show dictionary values
+        debug:
+          msg: 
+            - "{{ item.key }}: {{ item.value }}"
+        with_dict: "{{ sample_dict }}"
+      when: sample_dict is defined
+    - block:
+      - name: Show list assigned to a variable
+        debug:
+          msg:
+            - "{{ sample_list | from_yaml_all }}"
+            - "is of type '{{ sample_list | type_debug }}'"
+      - name: Show list values
+        debug:
+          msg: 
+            - "{{ item }}"
+        with_items: "{{ sample_list }}"
+      when: sample_list is defined

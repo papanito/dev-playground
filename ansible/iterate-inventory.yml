@@ -1,0 +1,15 @@
+---
+- name: iterate over all hosts in inventory
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+  - debug: msg="{{ groups }}"
+    delegate_to: localhost
+    run_once: true
+  - debug: msg="{{ groups['servers'] }}"
+    delegate_to: localhost
+    run_once: true
+  - debug: msg="{{ item }}"
+    with_items: "{{ groups['all'] }}"
+    delegate_to: localhost

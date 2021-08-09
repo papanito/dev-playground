@@ -1,0 +1,28 @@
+---
+- hosts: servers
+  tasks:
+  - name: Gluster | Unmount home as usually mounted to {{ gluster.bricks.brick.disk }}"
+    mount:
+      path: /home
+      src: "{{ gluster.bricks.brick.disk }}"
+      state: absent
+    register: result
+  - name: Gluster | Reboot the server and wait for it to come back up.
+    reboot:
+    when: result.changed
+  - name: Create a xfs filesystem on {{ gluster.bricks.brick.disk }}"
+    filesystem:
+        fstype: xfs
+        dev: "{{ gluster.bricks.brick.disk }}"
+        opts: -i size=512
+        force: "{{ force }}"
+  - name: Gluster | Create brick directory {{ dir }}"
+    file:
+      path: "{{ dir }}"
+      state: directory
+  - name: Gluster | Mount brick
+    mount:
+      path: "{{ dir }}"
+      src: "{{ disk }}"
+      fstype: xfs
+      state: mounted

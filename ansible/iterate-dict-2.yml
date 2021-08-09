@@ -1,0 +1,15 @@
+- name: Iterates trough a dictionary
+  hosts: localhost
+  vars:
+    services:
+      ssh:
+        hostname: demo.mycompany.com
+        url: https://localhost:8080
+      web:
+        hostname: web.mycompany.com
+        url: https://localhost:8080
+  tasks:
+  - name: provision authorised keys
+    debug: "msg={{ item.key }}={{ item.value.hostname }}"
+    with_dict: "{{services}}"
+    delegate_to: localhost

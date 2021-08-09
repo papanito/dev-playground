@@ -1,0 +1,29 @@
+# {{ ansible_managed }}
+# nameserver config
+# IPv4
+{% if hostname is defined %}
+127.0.0.1 localhost {{ hostname }}
+{% else %}
+127.0.0.1 localhost
+{% endif %}
+{% if ipv4 is defined %}
+{{ ipv4.address }} {{ hostname }}.{{localdomain}} {{ hostname }}
+{% endif %}
+
+{% for host in groups['all']  %}
+{% set short_name = host.split('.') %}
+{{ hostvars[host]['vlan']['address'] }}  {{ host }}.{{localdomain}} {{ short_name[0] }}
+{% endfor %}
+
+
+#
+# IPv6
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+ff02::3 ip6-allhosts
+{% if ipv6 is defined %}
+{{ ipv6.address }}  {{ hostname }}
+{% endif %}

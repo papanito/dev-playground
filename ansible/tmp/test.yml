@@ -1,0 +1,8 @@
+
+tunnel: test
+credentials-file: xxxxxxxxxxxxxxxx.json
+ingress:
+  - hostname: test.mycompany.com
+    service: ssh://localhost:22
+  - service: http_status:404
+

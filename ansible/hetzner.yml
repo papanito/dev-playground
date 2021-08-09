@@ -1,0 +1,31 @@
+- hosts: localhost
+  gather_facts: no
+
+  pre_tasks:
+  - name: Add ssh-keys to hcloud
+    hcloud_ssh_key:
+      name: "{{ item.key }}"
+      public_key: "{{ item.value }}"
+      state: present
+    with_dict: "{{ ssh_keys }}"
+    delegate_to: localhost
+    tags:
+      - ansible
+      - authorised_key
+
+
+  - name: Create a basic server cx11
+    hcloud_server:
+      name: demo
+      server_type: cx11
+      image: debian-10
+      state: present
+      ssh_keys: 
+        - ansible-user
+        - aedu-clawfinger
+    delegate_to: localhost
+    register: result
+
+  - name: Store ipv4 of host
+    set_fact:
+      ttrss_server_ipv4: "{{ result.hcloud_server.ipv4_address }}"

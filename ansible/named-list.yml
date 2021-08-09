@@ -1,0 +1,35 @@
+- name: Iterates trough a dictionary
+  hosts: localhost
+  gather_facts: false
+  vars:
+    rsyslog_srv:       logz.io # set this to use the correct service
+    rsyslog_tls:       true
+    rsyslog_tag:       syslog
+    rsyslog_cert:      syslogca.crt
+    rsyslog_cert_path: /etc/rsyslog.d/keys/ca.d
+    services:
+      loggly.com:
+        token:      YOUR_TOKEN_GOES_HERE
+        peer:       "*.loggly.com"
+        url:        logs-01.loggly.com
+        cert_name:  syslogca.crt
+        cert_path:  https://logdog.loggly.com/media/
+        port:       514
+        port_tls:   6514
+      logz.io:
+        token:      YOUR_TOKEN_GOES_HERE
+        peer:       "*.logz.io"
+        url:        listener.logz.io
+        cert_name:  COMODORSADomainValidationSecureServerCA.crt
+        cert_path:  https://raw.githubusercontent.com/logzio/public-certificates/master/
+        port:       5000
+        port_tls:   5015
+
+  tasks:
+  - name: Iterate over list
+    debug: "msg=val={{ item.value.token }}"
+    with_dict: "{{ services }}"
+    delegate_to: localhost
+  - name: List specific items
+    debug: "msg=val={{ services[rsyslog_srv].cert_path }}"
+  

@@ -1,0 +1,26 @@
+- name: Iterates trough a dictionary
+  hosts: localhost
+  vars:
+    packages:
+      pkg:
+        - tmux
+        - bashtop
+        - { name: python-hcloud, status: absent}
+        # for arch linux, packages only found in aur
+      aur:
+        - git-extras
+        - lens-bin
+      pip:
+        - pexpect
+        - pre-commit
+        - hcloud
+        - gphotos-sync
+
+  tasks:
+  - block:
+    - name: provision authorised keys
+      debug: "msg={{ item.key }}={{ item.value }}"
+      with_dict: "{{ packages }}"
+    - include_tasks: packages.yml
+      ignore_errors: yes
+      with_dict: "{{ packages }}"

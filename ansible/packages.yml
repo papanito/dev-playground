@@ -1,0 +1,23 @@
+- name: Install {{ package }}
+  debug:
+    msg: "{{ package['name'] | default(package) }} {{ package.status | default('latest') }}"
+  loop: "{{ item.value }}"
+  loop_control:
+    loop_var: package
+  when: item.key == "pkg"
+
+- name: Install {{ package }} from aur
+  debug:
+    msg: "{{ package['name'] | default(package) }} {{ package.status | default('latest') }}"
+  loop: "{{ item.value }}"
+  loop_control:
+    loop_var: package
+  when: item.key == "aur"
+
+- name: Install {{ package }} from pip
+  debug:
+    msg: "{{ package['name'] | default(package) }} {{ package.status | default('latest') }}"
+  loop: "{{ item.value }}"
+  loop_control:
+    loop_var: package
+  when: item.key == "pip"

@@ -1,0 +1,31 @@
+---
+- hosts: localhost
+  become: no
+  gather_facts: false
+  vars:
+    hcloud_firewall_ssh_only: "firewall-ssh-only"
+    hcloud_firewall_no_access: "firewall-no-access"
+    hcloud_network_dev: "network-private-dev"
+    hcloud_network_prd: "network-private-prd"
+
+  pre_tasks:
+  - name: Firewall for ssh only
+    hetzner.hcloud.hcloud_firewall:
+      api_token: "{{ hcloud_api_token }}"
+      name: "{{ hcloud_firewall_ssh_only }}"
+      state: present
+      rules:
+        - direction: "in"
+          port: "22"
+          protocol: "tcp"
+          source_ips:
+            - 0.0.0.0/0
+            - ::/0
+    delegate_to: localhost
+
+  - name: Firewall to remove external access completely
+    hetzner.hcloud.hcloud_firewall:
+      api_token: "{{ hcloud_api_token }}"
+      name: "{{ hcloud_firewall_no_access }}"
+      state: present
+    delegate_to: localhost

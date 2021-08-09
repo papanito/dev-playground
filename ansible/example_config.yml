@@ -1,0 +1,22 @@
+- hosts: localhost
+  vars:
+    cf_tunnels:
+      test:
+        routes:
+          dns:
+            - "{{ inventory_hostname }}"
+        account_tag: xxxxxxxxxxx
+        tunnel_secret: xxxxxxxxxxxx
+        tunnel_id: xxxxxxxxxxxxxxxx
+        ingress:
+        - hostname: test.mycompany.com
+          service: ssh://localhost:22
+        - service: http_status:404
+
+  tasks:
+  - name: Create config file for service '{{ item.key }}'
+    ansible.builtin.template:
+      src: config.yml.j2
+      dest: "./tmp/{{ item.key }}.yml"
+    register: tunnel_template
+    with_dict: "{{ cf_tunnels }}"
