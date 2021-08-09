@@ -1,0 +1,8 @@
+language: java
+jdk:
+  - oraclejdk8
+script:
+  - mvn -f ./SampleApps/pom.xml deploy -U --settings ".travis/settings.xml" 
+env:
+  global:
+    secure: "eQRhWz89GuPRVXJB2xHnDRXUpIqDibbPM1WcN7OEOX2EDyjEXo/nXR/2klat3RHtdJYbdg0h+po+HBvVTuDjRwjWxmlHP/sG6H4BcYMHMSAS+HdMJ8rI3p9Y1Fdtx9VQp42frF6SnI/1TfB15vTJycXT861ZN3AgO/hYgWUhzj500xsh9hmHYbtOtZ+K7s5Uw79l9JucX30P5QJ3GNwTgyxy888yLh1PbSKtxA6mHGm6jd+nkw/A9llhjQGsXHlPBZVeBmxvGdyJFH+lPBRv51UxMhWXcXxwRrqsj72lXZ4D+KHjErFelkKeZ6lSwIhnEdv7ck9TsQhe6XbwgXAVJ2c2uJVzqVr5PrMEszh6ON9oUvVfLJpPx7FhJcFIFlRDzyHahn9UP3riA1XJ/emlFGLS95leC60B1v5rnyJsFt8ST1VFYMJ0Eh1K3RH3dJCMs/34LnTSSFiZY4UFfQwNVmIGtcX7kxmD6tvwS8n43Yi9IOT+5T25iEqcH1hX9xsO2q+p2nV8Xx9h/PvvMZ0U21k+PwmAwSi4BLmh7jHCSfJGBqW0Uh2ydD+BaD6f8gho6nwCK4BeUpntQ6VbAG4e6I7lNlXHESWhLpOxSedwG7DKbzOSOC1Kq/YDouXxoUHFe7oXTETlZmbGgOgaiPCp7BeW8L4bvy4XQJ3l7Oe/ni4="
