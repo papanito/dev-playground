@@ -1,0 +1,33 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch UnitTestExample",
+            "request": "launch",
+            "mainClass": "UnitTestExample"
+        },
+        {
+            "type": "java",
+            "name": "Launch UnitTestExample",
+            "request": "launch",
+            "mainClass": "main.com.wyssmann.UnitTestExample"
+        },
+        {
+            "name": ".NET Core Launch (console)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/dot-net/regex-example/bin/Debug/net5.0/regex-example.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/dot-net/regex-example",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach"
+        }
+    ]
+}
